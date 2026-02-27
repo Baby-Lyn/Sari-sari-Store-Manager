@@ -9,17 +9,9 @@
 </head>
 <body>
 
-    <!-- Mobile Header -->
-    <header class="mobile-header">
-        <button class="hamburger" onclick="toggleMenu()">
-            <i class="fas fa-bars"></i>
-        </button>
-        <h2>🇵🇭 Sari-Sari Manager</h2>
-    </header>
-
     <div class="container">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar" id="sidebar">
+        <!-- Sidebar -->
+        <aside class="sidebar">
             <div class="logo">
                 <h2>🇵🇭 Sari-Sari Manager</h2>
             </div>
@@ -34,20 +26,17 @@
                     <i class="fas fa-shopping-cart"></i> Sales
                 </li>
                 <li onclick="showSection('utang')">
-                    <i class="fas fa-hand-holding-usd"></i> Utang
+                    <i class="fas fa-hand-holding-usd"></i> Utang Tracker
                 </li>
             </ul>
         </aside>
 
-        <!-- Overlay for mobile menu -->
-        <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-
-        <!-- Main Content Area -->
+        <!-- Main Content -->
         <main class="main-content">
             
             <!-- Dashboard Section -->
             <section id="dashboard" class="section active-section">
-                <h1>Dashboard</h1>
+                <h1>Dashboard Overview</h1>
                 <div class="cards-container">
                     <div class="card">
                         <h3>Total Products</h3>
@@ -69,54 +58,55 @@
                 
                 <div class="recent-activity">
                     <h3>Low Stock Alert</h3>
-                    <div class="table-container">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Product</th>
-                                    <th>Stock</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="dash-low-stock-table"></tbody>
-                        </table>
-                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Stock Left</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dash-low-stock-table"></tbody>
+                    </table>
                 </div>
             </section>
 
-            <!-- Inventory Section -->
+                        <!-- Inventory Section -->
             <section id="inventory" class="section">
-                <h1>Inventory</h1>
+                <h1>Inventory Management</h1>
                 <div class="form-container">
                     <input type="text" id="prod-name" placeholder="Product Name">
                     <input type="number" id="prod-price" placeholder="Price (₱)">
                     <input type="number" id="prod-qty" placeholder="Quantity">
-                    <button onclick="addProduct()">Add</button>
+                    <button onclick="addProduct()">Add Product</button>
                 </div>
                 <div class="table-container">
                     <table class="table">
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Name</th>
                                 <th>Price</th>
                                 <th>Stock</th>
-                                <th>Action</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="inventory-table"></tbody>
+                        <tbody id="inventory-table">
+                            <!-- JS will populate this -->
+                        </tbody>
                     </table>
                 </div>
             </section>
 
             <!-- Sales Section -->
             <section id="sales" class="section">
-                <h1>Daily Sales</h1>
+                <h1>Daily Sales Tracker</h1>
                 <div class="form-container">
                     <select id="sale-product-select">
                         <option value="">Select Product</option>
                     </select>
-                    <input type="number" id="sale-qty" placeholder="Qty Sold">
-                    <button onclick="addSale()">Sell</button>
+                    <input type="number" id="sale-qty" placeholder="Quantity Sold">
+                    <button onclick="addSale()">Record Sale</button>
                 </div>
                 <div class="table-container">
                     <table class="table">
@@ -125,7 +115,7 @@
                                 <th>Date</th>
                                 <th>Product</th>
                                 <th>Qty</th>
-                                <th>Total</th>
+                                <th>Total (₱)</th>
                             </tr>
                         </thead>
                         <tbody id="sales-table"></tbody>
@@ -135,11 +125,11 @@
 
             <!-- Utang Section -->
             <section id="utang" class="section">
-                <h1>Utang Tracker</h1>
+                <h1>Utang (Debt) Tracker</h1>
                 <div class="form-container">
                     <input type="text" id="utang-customer" placeholder="Customer Name">
                     <input type="number" id="utang-amount" placeholder="Amount (₱)">
-                    <button onclick="addUtang()">Add</button>
+                    <button onclick="addUtang()">Add Debt</button>
                 </div>
                 <div class="table-container">
                     <table class="table">
@@ -147,6 +137,7 @@
                             <tr>
                                 <th>Customer</th>
                                 <th>Amount</th>
+                                <th>Date</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
