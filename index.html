@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sari-Sari Store Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>🇵🇭 Sari-Sari Manager</h2>
+            </div>
+            <ul class="nav-links">
+                <li class="active" onclick="showSection('dashboard')">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </li>
+                <li onclick="showSection('inventory')">
+                    <i class="fas fa-boxes"></i> Inventory
+                </li>
+                <li onclick="showSection('sales')">
+                    <i class="fas fa-shopping-cart"></i> Sales
+                </li>
+                <li onclick="showSection('utang')">
+                    <i class="fas fa-hand-holding-usd"></i> Utang Tracker
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active-section">
+                <h1>Dashboard Overview</h1>
+                <div class="cards-container">
+                    <div class="card">
+                        <h3>Total Products</h3>
+                        <p id="dash-total-products">0</p>
+                    </div>
+                    <div class="card">
+                        <h3>Today's Sales</h3>
+                        <p id="dash-today-sales">₱0.00</p>
+                    </div>
+                    <div class="card">
+                        <h3>Customers with Utang</h3>
+                        <p id="dash-customers-utang">0</p>
+                    </div>
+                    <div class="card warning">
+                        <h3>Low Stock Items</h3>
+                        <p id="dash-low-stock">0</p>
+                    </div>
+                </div>
+                
+                <div class="recent-activity">
+                    <h3>Low Stock Alert</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Stock Left</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dash-low-stock-table"></tbody>
+                    </table>
+                </div>
+            </section>
+
+                        <!-- Inventory Section -->
+            <section id="inventory" class="section">
+                <h1>Inventory Management</h1>
+                <div class="form-container">
+                    <input type="text" id="prod-name" placeholder="Product Name">
+                    <input type="number" id="prod-price" placeholder="Price (₱)">
+                    <input type="number" id="prod-qty" placeholder="Quantity">
+                    <button onclick="addProduct()">Add Product</button>
+                </div>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventory-table">
+                            <!-- JS will populate this -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Sales Section -->
+            <section id="sales" class="section">
+                <h1>Daily Sales Tracker</h1>
+                <div class="form-container">
+                    <select id="sale-product-select">
+                        <option value="">Select Product</option>
+                    </select>
+                    <input type="number" id="sale-qty" placeholder="Quantity Sold">
+                    <button onclick="addSale()">Record Sale</button>
+                </div>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Product</th>
+                                <th>Qty</th>
+                                <th>Total (₱)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sales-table"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Utang Section -->
+            <section id="utang" class="section">
+                <h1>Utang (Debt) Tracker</h1>
+                <div class="form-container">
+                    <input type="text" id="utang-customer" placeholder="Customer Name">
+                    <input type="number" id="utang-amount" placeholder="Amount (₱)">
+                    <button onclick="addUtang()">Add Debt</button>
+                </div>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="utang-table"></tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
