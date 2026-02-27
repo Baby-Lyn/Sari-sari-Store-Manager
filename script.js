@@ -1,6 +1,4 @@
 // --- DATABASE (LocalStorage) ---
-// This acts as your database.
-
 let inventory = JSON.parse(localStorage.getItem('inventory')) || [
     { id: 1, name: "Sardines", price: 50, qty: 20 },
     { id: 2, name: "Noodles", price: 15, qty: 50 },
@@ -10,6 +8,17 @@ let inventory = JSON.parse(localStorage.getItem('inventory')) || [
 
 let sales = JSON.parse(localStorage.getItem('sales')) || [];
 let utang = JSON.parse(localStorage.getItem('utang')) || [];
+
+// --- MOBILE MENU TOGGLE ---
+function toggleMenu() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const mainContent = document.querySelector('.main-content');
+    
+    sidebar.classList.toggle('active');
+    overlay.classList.toggle('active');
+    mainContent.classList.toggle('expanded');
+}
 
 // --- INITIALIZATION ---
 window.onload = function() {
@@ -22,6 +31,9 @@ window.onload = function() {
 
 // --- NAVIGATION ---
 function showSection(sectionId) {
+    // Close mobile menu when a section is selected
+    toggleMenu();
+    
     document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active-section'));
     document.querySelectorAll('.nav-links li').forEach(li => li.classList.remove('active'));
     
@@ -60,7 +72,7 @@ function updateDashboard() {
         const row = `<tr>
             <td>${item.name}</td>
             <td>${item.qty}</td>
-            <td style="color: red; font-weight: bold;">Restock Needed</td>
+            <td style="color: red; font-weight: bold;">Restock</td>
         </tr>`;
         tableBody.innerHTML += row;
     });
@@ -88,16 +100,17 @@ function addProduct() {
         document.getElementById('prod-name').value = '';
         document.getElementById('prod-price').value = '';
         document.getElementById('prod-qty').value = '';
+        
+        alert("Product added successfully!");
     } else {
         alert("Please fill in all fields");
     }
 }
 
-// NEW FEATURE: RESTOCK
 function restockProduct(id) {
     const product = inventory.find(p => p.id === id);
     if (product) {
-        const addQty = prompt(`How many stocks to add for ${product.name}?`, "0");
+        const addQty = prompt(`Add stock for ${product.name}?`, "0");
         const qtyToAdd = parseInt(addQty);
         
         if (!isNaN(qtyToAdd) && qtyToAdd > 0) {
@@ -105,14 +118,14 @@ function restockProduct(id) {
             saveData();
             renderInventory();
             updateDashboard();
-            updateProductDropdown(); // Update dropdown in case it was 0
-            alert("Stock added successfully!");
+            updateProductDropdown();
+            alert("Stock added!");
         }
     }
 }
 
 function deleteProduct(id) {
-    if(confirm("Are you sure you want to delete this product?")) {
+    if(confirm("Delete this product?")) {
         inventory = inventory.filter(item => item.id !== id);
         saveData();
         renderInventory();
@@ -126,13 +139,12 @@ function renderInventory() {
     tableBody.innerHTML = '';
     inventory.forEach(item => {
         const row = `<tr>
-            <td>${item.id}</td>
             <td>${item.name}</td>
             <td>₱${item.price}</td>
             <td>${item.qty}</td>
             <td>
-                <button class="btn-restock" onclick="restockProduct(${item.id})">+ Stock</button>
-                <button class="btn-delete" onclick="deleteProduct(${item.id})">Delete</button>
+                <button class="btn-restock" onclick="restockProduct(${item.id})">+</button>
+                <button class="btn-delete" onclick="deleteProduct(${item.id})">X</button>
             </td>
         </tr>`;
         tableBody.innerHTML += row;
@@ -146,7 +158,7 @@ function updateProductDropdown() {
     inventory.forEach(item => {
         const option = document.createElement('option');
         option.value = item.id;
-        option.text = `${item.name} (Stock: ${item.qty}) - ₱${item.price}`;
+        option.text = `${item.name} (${item.qty}) - ₱${item.price}`;
         select.appendChild(option);
     });
 }
@@ -175,12 +187,12 @@ function addSale() {
             updateProductDropdown();
             
             document.getElementById('sale-qty').value = '';
-            alert("Sale recorded successfully!");
+            alert("Sale recorded!");
         } else {
-            alert("Not enough stock or invalid product.");
+            alert("Not enough stock.");
         }
     } else {
-        alert("Please select a product and quantity.");
+        alert("Select product and quantity.");
     }
 }
 
@@ -216,13 +228,15 @@ function addUtang() {
         
         document.getElementById('utang-customer').value = '';
         document.getElementById('utang-amount').value = '';
+        
+        alert("Debt added!");
     } else {
-        alert("Please enter customer name and amount.");
+        alert("Enter name and amount.");
     }
 }
 
 function payUtang(index) {
-    if(confirm("Mark this debt as paid?")) {
+    if(confirm("Mark as paid?")) {
         utang.splice(index, 1);
         saveData();
         renderUtang();
@@ -237,7 +251,6 @@ function renderUtang() {
         const row = `<tr>
             <td>${debt.customer}</td>
             <td>₱${debt.amount.toFixed(2)}</td>
-            <td>${debt.date}</td>
             <td><button class="btn-pay" onclick="payUtang(${index})">Paid</button></td>
         </tr>`;
         tableBody.innerHTML += row;
